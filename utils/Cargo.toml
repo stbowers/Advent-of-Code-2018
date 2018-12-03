@@ -1,0 +1,4 @@
+[package]
+name = "stbowers_aoc2018_utils"
+version = "0.1.0"
+authors = ["stbowers <sean.t.bowers@gmail.com>"]
