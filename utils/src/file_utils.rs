@@ -12,8 +12,7 @@ pub fn get_input<'a>(filename: &str, buffer: &'a mut String) -> std::io::Result<
         .split("\n")
         .map(|line: &str| -> &str {
             return line.trim_end();
-        })
-        .collect();
+        }).collect();
 
     return Ok(input_strings);
 }

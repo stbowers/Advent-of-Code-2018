@@ -1,11 +1,12 @@
-mod util;
+extern crate aoc_utils;
 
+use aoc_utils::file_utils;
 use std::iter::Iterator;
 
 fn main() {
     let mut buffer: String = String::new();
     let box_ids: Vec<&str> =
-        util::get_input("input.txt", &mut buffer).expect("Error reading input file");
+        file_utils::get_input("input.txt", &mut buffer).expect("Error reading input file");
 
     let checksum: u32 = get_checksum(&box_ids);
     println!("Checksum: {}", checksum);
