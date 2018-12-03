@@ -1,4 +1,6 @@
 extern crate aoc_utils;
+#[macro_use]
+extern crate text_io;
 
 use aoc_utils::file_utils;
 
@@ -32,7 +34,7 @@ impl Claim {
 fn main() {
     let mut buffer: String = String::new();
     let lines: Vec<&str> =
-        file_utils::get_input("./input.txt", &mut buffer).expect("Error reading input file");
+        file_utils::get_input("./test.txt", &mut buffer).expect("Error reading input file");
 
     let claims: Vec<Claim> = get_claims(&lines);
     let overlap: u32 = count_overlap(&claims);
@@ -100,6 +102,8 @@ fn count_overlap(claims: &Vec<Claim>) -> u32 {
             }
         }
     }
+
+    return overlap;
 }
 
 fn get_claims(lines: &Vec<&str>) -> Vec<Claim> {
@@ -114,28 +118,8 @@ fn get_claims(lines: &Vec<&str>) -> Vec<Claim> {
 }
 
 fn parse_claim(line: &str) -> Claim {
-    let mut rest_of_line: &str = line;
-
-    let mut line_scan: Vec<&str> = rest_of_line.splitn(2, "#").collect();
-    rest_of_line = line_scan[1];
-
-    line_scan = rest_of_line.splitn(2, " @ ").collect();
-    rest_of_line = line_scan[1];
-    let id: u32 = line_scan[0].parse::<u32>().unwrap();
-
-    line_scan = rest_of_line.splitn(2, ",").collect();
-    rest_of_line = line_scan[1];
-    let x: u32 = line_scan[0].parse::<u32>().unwrap();
-
-    line_scan = rest_of_line.splitn(2, ": ").collect();
-    rest_of_line = line_scan[1];
-    let y: u32 = line_scan[0].parse::<u32>().unwrap();
-
-    line_scan = rest_of_line.splitn(2, "x").collect();
-    rest_of_line = line_scan[1];
-    let width: u32 = line_scan[0].parse::<u32>().unwrap();
-
-    let height: u32 = rest_of_line.parse::<u32>().unwrap();
+    let (id, x, y, width, height): (u32, u32, u32, u32, u32);
+    scan!(line.bytes() => "#{} @ {},{}: {}x{}", id, x, y, width, height);
 
     return Claim::new(id, x, y, width, height);
 }

@@ -1,4 +1,4 @@
 [[package]]
-name = "stbowers_aoc2018_utils"
+name = "aoc_utils"
 version = "0.1.0"
 
