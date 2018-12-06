@@ -1,7 +1,11 @@
+extern crate time;
+
 use std::fs::File;
 use std::io::Read;
+use time::{Duration, PreciseTime};
 
 fn main() {
+    let start = PreciseTime::now();
     let mut file: File = File::open("input.txt").expect(&format!("Error reading input file\n"));
 
     // read file into contents
@@ -14,14 +18,15 @@ fn main() {
         .split("\n")
         .map(|line: &str| -> &str {
             return line.trim_end();
-        })
-        .collect();
+        }).collect();
 
     let mut frequency: i32 = 0;
     let mut seen_frequencies: Vec<i32> = Vec::new();
     seen_frequencies.push(0);
 
+    let mut iterations: i32 = 0;
     loop {
+        iterations += 1;
         let mut frequency_found: bool = false;
 
         for frequency_change in input_strings.iter() {
@@ -44,5 +49,11 @@ fn main() {
         }
     }
 
-    println!("First duplicate frequency: {}", frequency);
+    let end = PreciseTime::now();
+    println!(
+        "First duplicate frequency: {} ({} iterations)",
+        frequency, iterations
+    );
+
+    println!("Time: {}", start.to(end));
 }
