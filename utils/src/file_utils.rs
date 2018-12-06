@@ -1,7 +1,11 @@
 use std::fs::File;
 use std::io::Read;
 
-pub fn get_input<'a>(filename: &str, buffer: &'a mut String) -> std::io::Result<Vec<&'a str>> {
+pub fn get_input<'a>(
+    filename: &str,
+    buffer: &'a mut String,
+    filter_blank_lines: bool,
+) -> std::io::Result<Vec<&'a str>> {
     let mut file: File = File::open(filename)?;
 
     // read file into contents
@@ -12,6 +16,12 @@ pub fn get_input<'a>(filename: &str, buffer: &'a mut String) -> std::io::Result<
         .split("\n")
         .map(|line: &str| -> &str {
             return line.trim_end();
+        }).filter(|line| {
+            if filter_blank_lines {
+                line.len() > 0
+            } else {
+                true
+            }
         }).collect();
 
     return Ok(input_strings);
