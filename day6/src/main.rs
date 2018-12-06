@@ -2,46 +2,35 @@ extern crate aoc_utils;
 #[macro_use]
 extern crate text_io;
 
-use std::ops::{Add, Sub};
+mod board;
+mod vector;
 
-struct Vector {
-    x: i32,
-    y: i32,
-}
-
-impl Vector {
-    pub fn new(x: i32, y: i32) -> Vector {
-        return Vector { x: x, y: y };
-    }
-
-    pub fn manhattan_distance(v1: Vector, v2: Vector) -> i32 {
-        let d: Vector = v1 - v2;
-        return d.x.abs() + d.y.abs();
-    }
-}
-
-impl Add for Vector {
-    type Output = Vector;
-
-    fn add(self, other: Vector) -> Vector {
-        return Vector {
-            x: self.x + other.x,
-            y: self.y + other.y,
-        };
-    }
-}
-
-impl Sub for Vector {
-    type Output = Vector;
-
-    fn sub(self, other: Vector) -> Vector {
-        return Vector {
-            x: self.x - other.x,
-            y: self.y - other.y,
-        };
-    }
-}
+use aoc_utils::file_utils;
+use board::Board;
+use vector::Vector;
 
 fn main() {
-    println!("Hello, world!");
+    let mut buffer: String = String::new();
+    let input: Vec<&str> =
+        file_utils::get_input("./input.txt", &mut buffer, true).expect("Error reading input file");
+
+    let board: Board = Board::from_points(get_points(&input));
+    let biggest_area: i32 = board.get_largest_area();
+    println!("Part 1: {}", biggest_area);
+
+    let area_near_points: i32 = board.get_area_near_points(10000);
+    println!("Part 2: {}", area_near_points);
+}
+
+fn get_points(lines: &Vec<&str>) -> Vec<Vector> {
+    let mut points: Vec<Vector> = Vec::new();
+
+    for &line in lines {
+        let (x, y): (i32, i32);
+        scan!(line.bytes() => "{}, {}", x, y);
+
+        points.push(Vector::new(x, y));
+    }
+
+    return points;
 }
