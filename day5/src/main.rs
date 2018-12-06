@@ -11,20 +11,33 @@ fn main() {
         .read_to_string(&mut buffer)
         .expect("Error reading input file");
 
-    println!("Reacting {}:", buffer);
-    let reactions: u32 = react_polymer(&mut buffer);
+    let mut polymer1: String = buffer.clone();
+
+    let reactions: u32 = react_polymer(&mut polymer1);
     println!(
         "After {} reactions polymer is {} units long",
         reactions,
-        (&buffer).trim_end().len()
+        (&polymer1).trim_end().len()
     );
+
+    let mut best_length = buffer.len();
+    for ch in ('a' as u8)..('z' as u8) {
+        let mut polymer: String = buffer.clone();
+        remove_type(&mut polymer, ch as char);
+        react_polymer(&mut polymer);
+        if polymer.len() < best_length {
+            best_length = polymer.len();
+        }
+        println!("{}", ch as char);
+    }
+
+    println!("Shortest length: {}", best_length);
 }
 
 fn remove_type(polymer: &mut String, type_ch: char) {
     let type_lowercase = type_ch.to_lowercase().next().unwrap();
     let type_uppercase = type_ch.to_uppercase().next().unwrap();
-    polymer.replace(type_lowercase, "");
-    polymer.replace(type_uppercase, "");
+    polymer.retain(|c| c != type_lowercase && c != type_uppercase);
 }
 
 /// Reacts the given polymer until no more reactions can be made, and returns how many times the polymer was reacted
