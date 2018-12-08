@@ -6,8 +6,7 @@ mod solver;
 mod step;
 
 use aoc_utils::file_utils;
-use solver::get_ordered_steps;
-use std::cmp::max;
+use solver::{get_ordered_steps, get_time_to_complete};
 use step::Step;
 
 fn main() {
@@ -17,4 +16,8 @@ fn main() {
 
     let steps: Vec<Step> = step::parse_steps(lines);
     println!("Step order: {}", get_ordered_steps(&steps));
+    println!(
+        "Work will take {} seconds.",
+        get_time_to_complete(&steps, 60, 5)
+    );
 }
