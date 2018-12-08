@@ -1,0 +1,8 @@
+[package]
+name = "day7"
+version = "0.1.0"
+authors = ["stbowers <sean.t.bowers@gmail.com>"]
+
+[dependencies]
+aoc_utils = { path = "../utils" }
+text_io = "0.1.7"
